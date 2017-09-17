@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request
 from bs4 import BeautifulSoup
 import urllib, sys
 import time
+import pydash
 
 page_list={}
 def parseAddress(input):
@@ -89,7 +90,7 @@ def getPageList(myUrl):
                 i+=1
         if i>=len(list(page_list.keys())):
             break
-    return list(page_list)
+    return pydash.to_list(page_list)
 
 
 app = Flask(__name__)
