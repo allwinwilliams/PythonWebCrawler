@@ -17,7 +17,7 @@ def parseAddress(input):
 
 def retrieveWebPage(address):
         try:
-            web_handle = urllib.urlopen(address)
+            web_handle = urllib.request.urlopen(address)
         except:
             print( "Cannot retrieve URL: unknown error")
             return urllib.urlopen("http://citinnoviz.in")
