@@ -78,7 +78,7 @@ def getPageList(myUrl):
                 return "{'message' : 'error, cannot fetch'}"
             soup = BeautifulSoup(website_html, 'html.parser')
             for link in soup.find_all('a'):
-                url=parseURL(var, link.get('href').decode())
+                url=parseURL(var, link.get('href'))
                 if url != "":
                     if str(url) not in list(page_list.keys()):
                         page_list[str(url)]=0
