@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -10,6 +10,12 @@ def hello():
 @app.route('/test',methods=['GET'])
 def test_func():
     return jsonify("Hello, World!")
+
+@app.route('/request',methods=['GET'])
+def request_func():
+    x = request.args.get('q')
+    return jsonify("query",x)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
