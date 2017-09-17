@@ -17,11 +17,11 @@ def parseAddress(input):
 
 def retrieveWebPage(address):
         try:
-                web_handle = urllib2.urlopen(address)
-        except urllib2.HTTPError as e:
+                web_handle = urllib.urlopen(address)
+        except urllib.HTTPError as e:
                 print( "Cannot retrieve URL: HTTP Error Code", e.code)
                 sys.exit(1)
-        except urllib2.URLError as e:
+        except urllib.URLError as e:
                 print( "Cannot retrieve URL: " + e.reason[1])
                 sys.exit(1)
         except:
