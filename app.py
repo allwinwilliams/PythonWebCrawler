@@ -103,7 +103,7 @@ def test_func():
 @app.route('/request',methods=['GET'])
 def request_func():
     x = request.args.get('q')
-    return jsonify('query':x})
+    return jsonify(str({'query':x}))
 
 
 @app.route('/spider',methods=['GET'])
