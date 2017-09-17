@@ -74,6 +74,8 @@ def getPageList(myUrl):
             if website is None:
                 return "{'message' : 'error'}"
             website_html = website.read()
+            if not website_html:
+                return "{'message' : 'error, cannot fetch'}"
             soup = BeautifulSoup(website_html, 'html.parser')
             for link in soup.find_all('a'):
                 url=parseURL(var, link.get('href').decode())
