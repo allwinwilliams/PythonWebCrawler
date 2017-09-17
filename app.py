@@ -17,10 +17,10 @@ def parseAddress(input):
 
 def retrieveWebPage(address):
         try:
-                web_handle = urllib.urlopen(address)
+            web_handle = urllib.urlopen(address)
         except:
-                print( "Cannot retrieve URL: unknown error")
-                return None
+            print( "Cannot retrieve URL: unknown error")
+            return urllib.urlopen("http://citinnoviz.in")
         return web_handle
 
 def parseURL(site_url, sub_url):
