@@ -10,7 +10,7 @@ def parseAddress(input):
         if input[:7] != "http://":
                 if input.find("://") != -1:
                         print( "Error: Cannot retrive URL, address must be HTTP")
-                        sys.exit(1)
+                        return None
                 else:
                         input = "http://" + input
         return input
@@ -18,15 +18,9 @@ def parseAddress(input):
 def retrieveWebPage(address):
         try:
                 web_handle = urllib.urlopen(address)
-        except urllib.HTTPError as e:
-                print( "Cannot retrieve URL: HTTP Error Code", e.code)
-                sys.exit(1)
-        except urllib.URLError as e:
-                print( "Cannot retrieve URL: " + e.reason[1])
-                sys.exit(1)
         except:
                 print( "Cannot retrieve URL: unknown error")
-                sys.exit(1)
+                return None
         return web_handle
 
 def parseURL(site_url, sub_url):
