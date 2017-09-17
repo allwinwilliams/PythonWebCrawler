@@ -89,7 +89,7 @@ def getPageList(myUrl):
                 i+=1
         if i>=len(list(page_list.keys())):
             break
-    return list(page_list.keys())
+    return list(page_list)
 
 
 app = Flask(__name__)
