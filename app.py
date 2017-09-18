@@ -24,10 +24,7 @@ def retrieveWebPage(address):
         return web_handle
 
 def parseURL(site_url, sub_url):
-    if sub_url.endswith('/'):
-        s=sub_url
-    else:
-        s=sub_url
+    s=sub_url
     if s.startswith('#'):
         return None
     elif s.startswith(site_url):
