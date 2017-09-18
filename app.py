@@ -20,7 +20,7 @@ def retrieveWebPage(address):
             web_handle = urllib.request.urlopen(address)
         except:
             print( "Cannot retrieve URL: unknown error")
-            return urllib.urlopen("http://citinnoviz.in")
+            return None
         return web_handle
 
 def parseURL(site_url, sub_url):
@@ -43,6 +43,8 @@ def getPage(myUrl):
     var = parseURL(myUrl, myUrl)
     address=parseAddress(var)
     website=retrieveWebPage(address)
+    if website is None:
+        return "{'message' : 'error'}"
     website_html = website.read()
     soup = BeautifulSoup(website_html, 'html.parser')
 
@@ -118,14 +120,14 @@ def spider():
     x = request.args.get('url')
     if x:
         return jsonify(getPageList(x))
-    return jsonify("no url")
+    return jsonify("no url attribute given")
 
 @app.route('/parser',methods=['GET'])
 def request_parserfunc():
     x = request.args.get('url')
     if x:
         return jsonify(getPage(x))
-    return jsonify("no url")
+    return jsonify("no url attribute given")
 
 
 
