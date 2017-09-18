@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import urllib, sys
 import time
 
-page_list={}
+
 def parseAddress(input):
         if input[:7] != "http://":
                 if input.find("://") != -1:
@@ -27,9 +27,9 @@ def parseURL(site_url, sub_url):
     if sub_url.endswith('/'):
         s=sub_url
     else:
-        s=sub_url+'/'
+        s=sub_url
     if s.startswith('#'):
-        return ""
+        return None
     elif s.startswith(site_url):
         return s
     elif s.startswith('./'):
@@ -37,14 +37,18 @@ def parseURL(site_url, sub_url):
     elif s.startswith('/'):
         return site_url+s[1:len(s)]
     else:
-        return ""
+        return None
 
 def getPage(myUrl):
     var = parseURL(myUrl, myUrl)
+    if var is None:
+        return None
     address=parseAddress(var)
+    if address is None:
+        return None
     website=retrieveWebPage(address)
     if website is None:
-        return "{'message' : 'error'}"
+        return None
     website_html = website.read()
     soup = BeautifulSoup(website_html, 'html.parser')
 
@@ -53,48 +57,88 @@ def getPage(myUrl):
 
 
 def getPageList(myUrl):
+
     request_url = myUrl
+    print("request url"+str(request_url))
+
     var = parseURL(myUrl, myUrl)
+    print("parsed url"+str(var))
+    if var is None:
+        return None
+
     address=parseAddress(var)
+    request_address=str(address)
+
+    print("address :"+str(request_address))
+    if address is None:
+        return None
+
     website=retrieveWebPage(address)
     if website is None:
-        return "{'message' : 'error'}"
+        return None
+
     website_html = website.read()
     soup = BeautifulSoup(website_html, 'html.parser')
 
+    page_list={}
     page_list[str(address)]=0
     key=""
     url=""
     i=1
     data=[]
     while True:
-        i=1
         for key in list(page_list.keys()):
             if page_list[key] != 0:
+                page_list[key] += 1
                 continue
+
             page_list[key] += 1
             address=parseAddress(key)
+
+            if address is None:
+                continue
+
             website=retrieveWebPage(address)
             if website is None:
-                return "{'message' : 'error'}"
+                continue
+
             website_html = website.read()
+
             if not website_html:
                 return "{'message' : 'error, cannot fetch'}"
+
             soup = BeautifulSoup(website_html, 'html.parser')
+
             for link in soup.find_all('a'):
-                url=parseURL(var, link.get('href'))
-                if url != "":
-                    if str(url) not in list(page_list.keys()):
-                        page_list[str(url)]=0
+
+                print("href:"+str(link.get('href')))
+
+                url=parseURL(request_address, str(link.get('href')))
+                print("url:"+str(url))
+
+                if url is None:
+                    continue
+
+                address=parseAddress(url)
+                print("address:"+str(address))
+
+                if address is None:
+                    continue
+                else:
+                    if address not in list(page_list.keys()):
+                        print("...........address added..........")
+                        page_list[str(address)]=0
+                        i+=1
                     else:
-                        page_list[url] += 1
-        for key in list(page_list.keys()):
-            if page_list[key] == 0:
-                i+=1
+                        page_list[str(address)]+=1
+                        print("...........weight incremented..........")
+
         if i>=len(list(page_list.keys())):
             break
+
     for key, value in page_list.items():
         data.append({ 'url': key, 'weight': str(value) })
+
     response = { 'url': request_url, 'count': i, 'data' : data }
     return response
 
@@ -119,14 +163,20 @@ def request_func():
 def spider():
     x = request.args.get('url')
     if x:
-        return jsonify(getPageList(x))
+        response = jsonify(getPageList(x))
+        if response is None:
+            return jsonify({'error': "error on fetching data from url "+str(x)})
+        return response
     return jsonify("no url attribute given")
 
 @app.route('/parser',methods=['GET'])
 def request_parserfunc():
     x = request.args.get('url')
     if x:
-        return jsonify(getPage(x))
+        response = jsonify(getPage(x))
+        if response is None:
+            return jsonify({'error': "error on fetching data from url "+str(x)})
+        return response
     return jsonify("no url attribute given")
 
 
