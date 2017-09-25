@@ -89,8 +89,11 @@ def getList(myUrl):
     url=""
     i=0
     data=[]
+
     while True:
+
         for key in list(page_list.keys()):
+
             if page_list[key] != 0:
                 page_list[key] += 1
                 continue
@@ -130,28 +133,20 @@ def getList(myUrl):
                 else:
                     if address not in list(page_list.keys()):
                         print("...........address added..........")
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        print("...........link count: " + str(len(list(page_list.values()))) + "..........")
-=======
->>>>>>> parent of 3d9d248... changes
-=======
->>>>>>> parent of 3d9d248... changes
-=======
->>>>>>> parent of 3d9d248... changes
                         page_list[str(address)]=0
                     else:
                         page_list[str(address)]+=1
                         print("...........weight added..........")
 
         i=0
+
         for key in list(page_list.keys()):
-            if page_list[key] == 0:
+            if page_list[key] != 0:
                 i+=1
 
-        if i==0:
+        if i>=len(list(page_list.keys())):
             break
+
 
     for key, value in page_list.items():
         data.append({ 'url': key, 'weight': str(value) })
