@@ -131,7 +131,10 @@ def getList(myUrl):
                     if address not in list(page_list.keys()):
                         print("...........address added..........")
 <<<<<<< HEAD
+<<<<<<< HEAD
                         print("...........link count: " + str(len(list(page_list.values()))) + "..........")
+=======
+>>>>>>> parent of 3d9d248... changes
 =======
 >>>>>>> parent of 3d9d248... changes
                         page_list[str(address)]=0
