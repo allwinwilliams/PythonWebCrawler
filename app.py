@@ -130,7 +130,7 @@ def getList(myUrl):
                 else:
                     if address not in list(page_list.keys()):
                         print("...........address added..........")
-                        print("...........link count : "+len(page_list)+" ..........")
+                        print("...........link count: " + str(len(list(page_list.values()))) + "..........")
                         page_list[str(address)]=0
                     else:
                         page_list[str(address)]+=1
