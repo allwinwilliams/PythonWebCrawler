@@ -16,8 +16,6 @@ def parseAddress(input):
         return input
 
 def retrieveWebPage(address):
-        if address.endswith('.pdf') or address.endswith('.jpg') or address.endswith('.png') or address.endswith('.jpeg'):
-            return None
         try:
             web_handle = urllib.request.urlopen(address)
         except:
@@ -26,6 +24,7 @@ def retrieveWebPage(address):
         return web_handle
 
 def parseURL(site_url, sub_url):
+
     if sub_url.endswith('/'):
         s=sub_url[:-1]
     else:
@@ -219,7 +218,7 @@ def getPageList(myUrl):
                 print("...........weight added..........")
 
     for key, value in page_list.items():
-        data.append({ 'url': key, 'weight': value })
+        data.append({ 'url': key })
 
     response = { 'url': request_url, 'count': str(len(data)), 'data' : data }
     return response
