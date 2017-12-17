@@ -7,28 +7,20 @@ import requests
 from page import Page
 
 def parseAddress(url):
-    if url[:8] == "https://":
+    if url[:8] == "https://" or url[:7] == "http://":
         return url
-    if url[:7] != "http://":
-        url = "http://" + url
-    return url
+    return "http://" + url
 
 
 def validateUrl(site_url, sub_url):
-    if site_url == sub_url:
-        print "equal"
-        return sub_url
-
-    if site_url is None or sub_url is None:
-        print "none........"
-        return ""
-
     if sub_url.endswith('/'):
-        s=sub_url
+        s=sub_url[:-1]
     else:
-        s=sub_url+'/'
-
-
+        s=sub_url
+    if site_url == sub_url:
+        return sub_url
+    if site_url is None or sub_url is None:
+        return ""
 
     if s.startswith('#'):
         return ""
@@ -51,18 +43,14 @@ def get_site(url):
         return website_url
     return None
 
-def isUrl(url):
+def isUrl(website_url, url):
     time.sleep(1)
     if url is None or url == "":
         return False
-    print url
-    site_url=get_site(url)
-    print "________________ SITE URL _________________"
-    print site_url
-    if site_url is None or site_url == "":
+    if website_url is None or website_url == "":
         return False
-    full_url = str(validateUrl(site_url, url))
-    print "????????????? full_url ????????????????"
+    full_url = str(validateUrl(website_url, url))
+    print "---------------- full_url ----------------"
     print full_url
     if full_url is None or full_url == "":
         return False
@@ -72,10 +60,10 @@ def isUrl(url):
             return True
     return False
 
-def getPage(myUrl):
+def getPage(website_url, myUrl):
     url=parseAddress(myUrl)
-    address = validateUrl(url, url)
-    if isUrl(address) != True:
+    address = validateUrl(website_url, url)
+    if isUrl(website_url, address) != True:
         return None
     website_html=requests.get(address).content
     soup = BeautifulSoup(website_html, 'lxml')
