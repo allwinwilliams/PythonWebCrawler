@@ -2,6 +2,11 @@ import os
 from flask import Flask, jsonify, request
 
 from bs4 import BeautifulSoup
+
+from neo4j.v1 import GraphDatabase
+
+from db_services import *
+
 import urllib, sys
 import time
 
@@ -23,6 +28,14 @@ def retrieveWebPage(address):
             return None
         return web_handle
 
+
+def processUrl(site_url, sub_url):
+    s=sub_url
+    if '?' in s:
+        return None
+    if '#' in s:
+        return None
+
 def parseURL(site_url, sub_url):
 
     if sub_url.endswith('/'):
@@ -43,7 +56,7 @@ def parseURL(site_url, sub_url):
         return None
 
 def getPage(myUrl):
-    var = parseURL(myUrl, myUrl)
+    var = processUrl(myUrl, myUrl)
     if var is None:
         return None
     address=parseAddress(var)
@@ -64,7 +77,7 @@ def getList(myUrl):
     request_url = myUrl
     print("request url"+str(request_url))
 
-    var = parseURL(myUrl, myUrl)
+    var = processUrl(myUrl, myUrl)
     print("parsed url"+str(var))
     if var is None:
         return None
@@ -98,6 +111,10 @@ def getList(myUrl):
                 page_list[key] += 1
                 continue
 
+            if key.endswith('.pdf') or key.endswith('.jpg') or key.endswith('.png') or key.endswith('.jpeg'):
+                page_list[key] += 1
+                continue
+
             page_list[key] += 1
             address=parseAddress(key)
 
@@ -119,7 +136,7 @@ def getList(myUrl):
 
                 print("href:"+str(link.get('href')))
 
-                url=parseURL(request_address, str(link.get('href')))
+                url=processUrl(request_address, str(link.get('href')))
                 print("url:"+str(url))
 
                 if url is None:
@@ -138,15 +155,7 @@ def getList(myUrl):
                         page_list[str(address)]+=1
                         print("...........weight added..........")
 
-        i=0
-
-        for key in list(page_list.keys()):
-            if page_list[key] != 0:
-                i+=1
-
-        if i>=len(list(page_list.keys())):
             break
-
 
     for key, value in page_list.items():
         data.append({ 'url': key, 'weight': str(value) })
@@ -160,7 +169,7 @@ def getPageList(myUrl):
     request_url = myUrl
     print("request url"+str(request_url))
 
-    var = parseURL(myUrl, myUrl)
+    var = processUrl(myUrl, myUrl)
     print("parsed url"+str(var))
     if var is None:
         return None
@@ -193,7 +202,7 @@ def getPageList(myUrl):
 
         print("href:"+str(link.get('href')))
 
-        url=parseURL(request_address, str(link.get('href')))
+        url=processUrl(request_address, str(link.get('href')))
         print("url:"+str(url))
 
         if url is None:
@@ -268,5 +277,6 @@ def request_parserfunc():
 
 
 if __name__ == "__main__":
+    neo4j-driver = GraphDatabase.driver(uri, auth=("neo4j", "password"))
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
