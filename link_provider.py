@@ -1,5 +1,6 @@
 dict={}
-dict['https://mashable.com/']=0
-dict['https://medium.com/']=0
+dict['https://mashable.com/']={}
+dict['https://medium.com/']={}
+
 def init_list():
     return dict

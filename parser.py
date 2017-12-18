@@ -11,7 +11,6 @@ def parseAddress(url):
         return url
     return "http://" + url
 
-
 def validateUrl(site_url, sub_url):
     if sub_url.endswith('/'):
         s=sub_url[:-1]
@@ -50,6 +49,7 @@ def isUrl(website_url, url):
     if website_url is None or website_url == "":
         return False
     full_url = str(validateUrl(website_url, url))
+
     print "---------------- full_url ----------------"
     print full_url
     if full_url is None or full_url == "":

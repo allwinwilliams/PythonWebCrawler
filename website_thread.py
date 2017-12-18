@@ -31,7 +31,7 @@ website_threads=[]
 i=0
 
 for page in spider.page_list:
-    time.sleep(10)
+    time.sleep(1)
     website_threads.append(WebsiteThread(1, page, 1))
     website_threads[i].start()
     i += 1
