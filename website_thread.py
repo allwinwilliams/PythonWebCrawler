@@ -3,8 +3,13 @@ import time
 import spider
 import crawler
 
-exitFlag = 0
+"""
+.. module:: website_thread
+.. note:: for multithreading crawling of each website from spider
+.. moduleauthor:: Allwin Williams <allwinwilliams.info@gmail.com>
+"""
 
+# exitFlag = 0
 class WebsiteThread (threading.Thread):
    def __init__(self, threadID, website_url, counter):
       threading.Thread.__init__(self)
@@ -18,14 +23,7 @@ class WebsiteThread (threading.Thread):
       print "Exiting......... " + self.website_url
 
 
-def print_time(threadName, counter, delay):
-   while counter:
-      if exitFlag:
-         threadName.exit()
-      time.sleep(delay)
-      print "%s: %s" % (threadName, time.ctime(time.time()))
-      counter -= 1
-
+# threadName.exit()
 
 website_threads=[]
 i=0

@@ -1,5 +1,14 @@
+"""
+.. module:: page class
+.. note:: to store structred page
+.. moduleauthor:: Allwin Williams <allwinwilliams.info@gmail.com>
+"""
 
 class Page(object):
+    """
+        Page class with properties url, article and links
+    """
+
     url=""
     article=""
     links=[]

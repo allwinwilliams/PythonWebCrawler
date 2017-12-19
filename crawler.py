@@ -3,39 +3,41 @@ import time
 import parser
 import db_services
 from classifier import *
-import link_provider
 
 from page import Page
 import spider
 
+"""
+.. module:: crawl through a website
+.. note:: uses crawl function
+.. moduleauthor:: Allwin Williams <allwinwilliams.info@gmail.com>
+"""
 
 def crawl(website_url):
+    """
+        crawl function gets a website_url as input,
+        get links in the page from the parser and go to that page and so on...
+        after getting the page it calls classify and store function in classifier
+    """
     time.sleep(1)
-
-    pages=link_provider.dict[website_url]
-
+    pages=spider.page_list[website_url]
     key=""
     url=""
-
-    time.sleep(1)
     page=parser.getPage(website_url, website_url)
     if page is None:
         print {'message' : 'error'}
         return
     print page.links
-
     for url in page.links:
-        time.sleep(1)
         if parser.isUrl(website_url, url):
             if url not in list(pages.keys()):
                 pages[url] = 0
-                print "\n\n new url added"
+                print "\n\n new url added........."
                 print url
             else:
                 pages[url] += 1
-
-    while True:
         time.sleep(1)
+    while True:
         for key, value in pages.items():
             time.sleep(1)
             if value != 0:
@@ -47,7 +49,6 @@ def crawl(website_url):
                 print {'message' : 'error'}
                 break
             print page.links
-
             for url in page.links:
                 time.sleep(1)
                 if parser.isUrl(website_url, url):
