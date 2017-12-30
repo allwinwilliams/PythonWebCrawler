@@ -13,7 +13,7 @@ def get_categories(tx):
     for result in tx.run("MATCH (c:Category) RETURN c.name"):
         print result["c.name"]
 
-def get_articles(tx):
+def get_articles(tx, topics=[]):
     print ":::::articles:::::"
     for result in tx.run("MATCH (a:Article) RETURN a.title"):
         print result["a.title"]
@@ -24,7 +24,7 @@ def insert_article(tx, article):
 def insert_category(tx, category):
     tx.run("CREATE (c: Category {name: %S }) RETURN a" %category)
 
-#
+
 # driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "password"))
 # with driver.session() as session:
 #     session.read_transaction(get_articles)
