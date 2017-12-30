@@ -1,6 +1,12 @@
 from neo4j.v1 import GraphDatabase
 import json
 
+"""
+.. module:: module interfacing with database
+.. note:: used to store and retrive based on constrains
+.. moduleauthor:: Allwin Williams <allwinwilliams.info@gmail.com>
+"""
+
 
 def close(self):
     self._driver.close()
@@ -13,10 +19,10 @@ def get_categories(tx):
     for result in tx.run("MATCH (c:Category) RETURN c.name"):
         print result["c.name"]
 
-def get_articles(tx, topics=[]):
+def get_articles(tx, topics=[],q=""):
     print ":::::articles:::::"
-    for result in tx.run("MATCH (a:Article) RETURN a.title"):
-        print result["a.title"]
+    for result in tx.run("MATCH (a:Article) RETURN a"):
+        print result["a"]
 
 def insert_article(tx, article):
     tx.run("CREATE (a: Article {title:" +article.title+ ", url: "+article.url+ ", content:" +article.content+ " }) RETURN a")

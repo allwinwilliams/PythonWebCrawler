@@ -10,6 +10,14 @@ import db_services
 import sys
 import time
 
+
+"""
+.. module:: provides web interface
+.. note:: provides interface through which articles can be retrived under different constraint
+.. moduleauthor:: Allwin Williams <allwinwilliams.info@gmail.com>
+"""
+
+
 @app.route('/hello',methods=['GET'])
 def request_hello():
     return jsonify("hello world")
