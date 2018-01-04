@@ -24,14 +24,18 @@ class WebsiteThread (threading.Thread):
 
 
 # threadName.exit()
+def main():
+    """main function to create threads for each websites"""
+    website_threads=[]
+    i=0
 
-website_threads=[]
-i=0
+    for page in spider.page_list:
+        time.sleep(1)
+        website_threads.append(WebsiteThread(1, page, 1))
+        website_threads[i].start()
+        i += 1
 
-for page in spider.page_list:
-    time.sleep(1)
-    website_threads.append(WebsiteThread(1, page, 1))
-    website_threads[i].start()
-    i += 1
+    print "Exiting Main Thread"
 
-print "Exiting Main Thread"
+if __name__=="__main__":
+    main()
