@@ -16,7 +16,6 @@ class WebsiteThread (threading.Thread):
       self.threadID = threadID
       self.website_url = website_url
       self.counter = counter
-
    def run(self):
       print "Starting........ " + self.website_url
       crawler.crawl(self.website_url)
@@ -28,7 +27,6 @@ def main():
     """main function to create threads for each websites"""
     website_threads=[]
     i=0
-
     for page in spider.page_list:
         time.sleep(1)
         website_threads.append(WebsiteThread(1, page, 1))

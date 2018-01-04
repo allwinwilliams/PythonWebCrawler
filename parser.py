@@ -70,7 +70,7 @@ def isUrl(website_url, url):
     if full_url is None or full_url == "":
         return False
     site=requests.get(full_url)
-    if site:
+    if site is not None:
         if site.status_code==200:
             return True
     return False

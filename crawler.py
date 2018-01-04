@@ -20,24 +20,29 @@ def crawl(website_url):
         after getting the page it calls classify and store function in classifier
     """
     time.sleep(1)
-    pages=spider.page_list[website_url]
-    key=""
-    url=""
-    page=parser.getPage(website_url, website_url)
-    if page is None:
-        print {'message' : 'error'}
-        return
-    print page.links
-    for url in page.links:
-        if parser.isUrl(website_url, url):
-            if url not in list(pages.keys()):
-                pages[url] = 0
-                print "\n\n new url added........."
-                print url
-            else:
-                pages[url] += 1
-        time.sleep(1)
     while True:
+        pages=spider.page_list[website_url]["links"]
+        key=""
+        url=""
+        page=parser.getPage(website_url, website_url)
+        if page is None:
+            print {'message' : 'error'}
+            return
+        print page.links
+        for url in page.links:
+            if parser.isUrl(website_url, url):
+                if url not in list(pages.keys()):
+                    pages[url] = 0
+                    print "\n\n new url added........."
+                    print url
+                    print "pages"
+                    print pages
+                    print "pages list"
+                    print spider.page_list
+                else:
+                    pages[url] += 1
+            time.sleep(1)
+
         for key, value in pages.items():
             time.sleep(1)
             if value != 0:
