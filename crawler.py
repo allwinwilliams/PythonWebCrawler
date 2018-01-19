@@ -32,13 +32,9 @@ def crawl(website_url):
         for url in page.links:
             if parser.isUrl(website_url, url):
                 if url not in list(pages.keys()):
-                    pages[url] = 0
+                    pages[parser.full_url(url, website_url)] = 0
                     print "\n\n new url added........."
-                    print url
-                    print "pages"
-                    print pages
-                    print "pages list"
-                    print spider.page_list
+                    print parser.full_url(url, website_url)
                 else:
                     pages[url] += 1
             time.sleep(1)
@@ -58,13 +54,13 @@ def crawl(website_url):
                 time.sleep(1)
                 if parser.isUrl(website_url, url):
                     if url not in list(pages.keys()):
-                        pages[url] = 0
-                        print "\n\n new url added"
-                        print url
+                        db_services.classify_and_store(page)
+                        pages[parser.full_url(url, website_url)] = 0
+                        print "\n\n new url added_____________"
+                        print parser.full_url(url, website_url)
                     else:
                         pages[url] += 1
 
             print "...........Page_list............"
-            print parser.pages
-            db_services.classify_and_store({'url': page.url, 'article': page.article})
+            print spider.pages
             time.sleep(1)

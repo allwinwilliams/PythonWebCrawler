@@ -75,6 +75,13 @@ def isUrl(website_url, url):
             return True
     return False
 
+def full_url(path, website_url):
+    if not path.startswith('/') or path.startswith('.'):
+        return path
+    if path is None or website_url is None:
+        return None
+    return website_url+path[1:]
+
 def getPage(website_url, myUrl):
     """
         get whole page with content, title, links in the page from a url given
