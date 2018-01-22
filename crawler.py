@@ -20,10 +20,10 @@ def crawl(website_url):
         after getting the page it calls classify and store function in classifier
     """
     time.sleep(1)
+    pages=spider.page_list[website_url]["links"]
+    key=""
+    url=""
     while True:
-        pages=spider.page_list[website_url]["links"]
-        key=""
-        url=""
         page=parser.getPage(website_url, website_url)
         if page is None:
             print {'message' : 'error'}

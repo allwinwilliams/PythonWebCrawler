@@ -4,7 +4,7 @@
 .. moduleauthor:: Allwin Williams <allwinwilliams.info@gmail.com>
 """
 
-class Page(object):
+class Term(object):
     """
         Term class with properties url, article and links
     """

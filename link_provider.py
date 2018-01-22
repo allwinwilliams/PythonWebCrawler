@@ -1,6 +1,6 @@
 dict={}
 dict['https://mashable.com/']={
-    'tags':{
+    'content-tags':{
         "content": ["section-content"],
         "heading": ["graf", "graf--h3", "graf--leading", "graf--title"],
         "image": [],
@@ -14,10 +14,13 @@ dict['https://mashable.com/']={
     },
     'links':{
 
+    },
+    'weight': {
+
     }
 }
 dict['https://medium.com/']={
-    'tags':{
+    'content-tags':{
         "content": ["section-content"],
         "heading": ["graf", "graf--h3", "graf--leading", "graf--title"],
         "image": [],
@@ -30,6 +33,9 @@ dict['https://medium.com/']={
         "author": []
     },
     'links':{
+
+    },
+    'weight': {
 
     }
 }

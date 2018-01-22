@@ -12,7 +12,7 @@ class Page(object):
     url=""
     article=""
     links=[]
-
+    related={}
     def __init__(self, url, article, links):
         self.url = url
         self.article = article
