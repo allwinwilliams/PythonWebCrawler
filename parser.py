@@ -3,7 +3,7 @@ import urllib2, sys
 import time
 from lxml import html
 import requests
-
+import re
 from page import Page
 """
 .. module:: for parsing a given url from web
@@ -82,7 +82,7 @@ def full_url(path, website_url):
         return None
     return website_url+path[1:]
 
-def getPage(website_url, myUrl):
+def getPage(website_url, myUrl, tags):
     """
         get whole page with content, title, links in the page from a url given
     """
@@ -92,14 +92,19 @@ def getPage(website_url, myUrl):
         return None
     website_html=requests.get(address).content
     soup = BeautifulSoup(website_html, 'lxml')
-    page = Page(address, getArticle(soup), getLinks(soup))
+    article=getArticle(soup, tags)
+    page = Page(address, article, getLinks(soup), article[0]['title'])
     return page
 
-def getArticle(soup):
+def getArticle(soup, tags):
     """
         get title and content from a html page
     """
-    return {'title':soup.title.string, 'content': soup.get_text().replace('\n', '').replace('\r', '').replace('\t', '')}
+    article=[]
+    article.append({'title': soup.title.string})
+    article.append({'content': getTagContent(soup, tags['content'])})
+    # article.append({'headings': getTagContent(soup, tags.heading))
+    return article
 
 def getLinks(soup):
     """
@@ -109,3 +114,14 @@ def getLinks(soup):
     for link in soup.find_all('a'):
         links.append(link.get('href'))
     return links
+
+def getTagContent(soup, tag):
+    print "Tag Content::"
+    content=[]
+    tag_contents= soup.findAll(attrs={'class': re.compile(r".*\barticle-content\b.*")})
+    print tag_contents
+    for tag_content in tag_contents:
+        content.appent(tag_content)
+    if content:
+        return content
+    return soup.get_text().replace('\n', '. ').replace('\r', ' ').replace('\t', ' ')

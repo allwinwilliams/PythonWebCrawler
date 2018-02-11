@@ -10,10 +10,13 @@ class Page(object):
     """
 
     url=""
-    article=""
+    article={"title": "", "subtitle": "", "content": ""}
+    title=""
     links=[]
     related={}
-    def __init__(self, url, article, links):
-        self.url = url
-        self.article = article
-        self.links = links
+    def __init__(self, url, article, links, title):
+        self.url=url
+        self.article=article
+        self.links=links
+        self.title=title
+        print "Page created.. for url"+str(url)

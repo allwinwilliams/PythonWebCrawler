@@ -13,7 +13,7 @@ import spider
 .. moduleauthor:: Allwin Williams <allwinwilliams.info@gmail.com>
 """
 
-def crawl(website_url):
+def crawl(website_url, tags):
     """
         crawl function gets a website_url as input,
         get links in the page from the parser and go to that page and so on...
@@ -24,7 +24,7 @@ def crawl(website_url):
     key=""
     url=""
     while True:
-        page=parser.getPage(website_url, website_url)
+        page=parser.getPage(website_url, website_url, tags)
         if page is None:
             print {'message' : 'error'}
             return
@@ -45,7 +45,7 @@ def crawl(website_url):
                 value += 1
                 continue
             pages[key] += 1
-            page=parser.getPage(website_url, key)
+            page=parser.getPage(website_url, key, tags)
             if page is None:
                 print {'message' : 'error'}
                 break
